@@ -25,9 +25,9 @@ For graders and mentors to evaluate the platform, use the following seeded demo 
 
 | Role | Email | Password | Permissions |
 |------|-------|----------|-------------|
-| **Admin** | `admin@demo.com` | `demo123` | Full access (manage members, assign roles, full data access) |
-| **Analyst** | `analyst@demo.com` | `demo123` | Ingest and manage feedback, use AI features |
-| **Viewer** | `viewer@demo.com` | `demo123` | Read-only access to dashboards and reports |
+| **Admin** | `admin@demo.com` | `12345678` | Full access (manage members, assign roles, full data access) |
+| **Analyst** | `analyst@demo.com` | `12345678` | Ingest and manage feedback, use AI features |
+| **Viewer** | `viewer@demo.com` | `12345678` | Read-only access to dashboards and reports |
 
 *(Note: These credentials map to the seeded database provided by the backend).*
 
