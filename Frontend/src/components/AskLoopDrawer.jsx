@@ -129,13 +129,11 @@ export const AskLoopDrawer = ({isOpen, onClose}) => {
                         ))}
 
                         {isTyping && (
-                            <div className="flex gap-3">
-                                <div className="flex-shrink-0 mt-1">
-                                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center shadow-sm">
-                                        <Bot size={16} className="text-white animate-pulse" />
-                                    </div>
+                            <div className="flex gap-3 flex-row">
+                                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center shadow-sm shrink-0">
+                                    <Sparkles size={16} className="text-white" />
                                 </div>
-                                <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-500/20 rounded-2xl rounded-tl-sm p-3.5 flex items-center gap-1.5 shadow-sm">
+                                <div className="bg-white dark:bg-[#030712] border border-zinc-200 dark:border-zinc-800 rounded-2xl rounded-tl-none px-5 py-3.5 shadow-sm flex items-center gap-1.5 w-20">
                                     <div
                                         className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce"
                                         style={{animationDelay: "0ms"}}
@@ -151,12 +149,8 @@ export const AskLoopDrawer = ({isOpen, onClose}) => {
                                 </div>
                             </div>
                         )}
-                        <div ref={messagesEndRef} />
-                    </div>
-
-                    <div className="p-4 bg-white dark:bg-[#030712] border-t border-zinc-200 dark:border-zinc-800 shrink-0">
                         {messages.length === 1 && (
-                            <div className="flex flex-wrap gap-2 mb-4">
+                            <div className="flex flex-wrap gap-2 mt-4">
                                 {SUGGESTED_QUESTIONS.map((q, idx) => (
                                     <button
                                         key={idx}
@@ -168,7 +162,10 @@ export const AskLoopDrawer = ({isOpen, onClose}) => {
                                 ))}
                             </div>
                         )}
+                        <div ref={messagesEndRef} />
+                    </div>
 
+                    <div className="p-4 bg-white dark:bg-[#030712] border-t border-zinc-200 dark:border-zinc-800 shrink-0">
                         <form onSubmit={handleSend} className="relative flex items-center">
                             <input
                                 type="text"
