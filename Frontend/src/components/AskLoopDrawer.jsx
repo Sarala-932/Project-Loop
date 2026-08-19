@@ -11,10 +11,15 @@ const SUGGESTED_QUESTIONS = [
 
 export const AskLoopDrawer = ({isOpen, onClose}) => {
     const {messages, input, setInput, isTyping, handleSend, handleSuggest} = useAskLoop();
-    const messagesEndRef = useRef(null);
+    const scrollContainerRef = useRef(null);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTo({
+                top: scrollContainerRef.current.scrollHeight,
+                behavior: "smooth"
+            });
+        }
     };
 
     useEffect(() => {
@@ -46,7 +51,7 @@ export const AskLoopDrawer = ({isOpen, onClose}) => {
                 </div>
 
                 <div className="flex-1 flex flex-col overflow-hidden bg-zinc-50/30 dark:bg-zinc-950/50">
-                    <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                    <div ref={scrollContainerRef} className="flex-1 overflow-y-auto p-6 space-y-6">
                         {messages.map((msg) => (
                             <div
                                 key={msg.id}
