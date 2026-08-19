@@ -167,7 +167,6 @@ export const AskLoopDrawer = ({isOpen, onClose}) => {
                                 ))}
                             </div>
                         )}
-                        <div ref={messagesEndRef} />
                     </div>
 
                     <div className="p-4 bg-white dark:bg-[#030712] border-t border-zinc-200 dark:border-zinc-800 shrink-0">
