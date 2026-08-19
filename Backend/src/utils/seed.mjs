@@ -33,27 +33,27 @@ const seedDatabase = async () => {
         });
 
         console.log("👥 Creating Users (Admin, Analyst, Viewer)...");
-        const passwordHash = await bcrypt.hash("password123", 10);
+        const passwordHash = await bcrypt.hash("demo123", 10);
         
         await User.create([
             {
                 workspaceId: workspace._id,
                 name: "Alice Admin",
-                email: "admin@acmecorp.com",
+                email: "admin@demo.com",
                 passwordHash,
                 role: "ADMIN"
             },
             {
                 workspaceId: workspace._id,
                 name: "Bob Analyst",
-                email: "analyst@acmecorp.com",
+                email: "analyst@demo.com",
                 passwordHash,
                 role: "ANALYST"
             },
             {
                 workspaceId: workspace._id,
                 name: "Charlie Viewer",
-                email: "viewer@acmecorp.com",
+                email: "viewer@demo.com",
                 passwordHash,
                 role: "VIEWER"
             }

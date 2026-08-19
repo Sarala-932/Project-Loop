@@ -21,13 +21,13 @@ LOOP uses a clean three-layer flow:
 ## Demo Accounts (RBAC)
 For graders and mentors to evaluate the platform, use the following seeded demo accounts. 
 
-*Workspace:* **Acme Corp**
+*Workspace:* **Demo Corp**
 
 | Role | Email | Password | Permissions |
 |------|-------|----------|-------------|
-| **Admin** | `admin@acmecorp.com` | `password123` | Full access (manage members, assign roles, full data access) |
-| **Analyst** | `analyst@acmecorp.com` | `password123` | Ingest and manage feedback, use AI features |
-| **Viewer** | `viewer@acmecorp.com` | `password123` | Read-only access to dashboards and reports |
+| **Admin** | `admin@demo.com` | `demo123` | Full access (manage members, assign roles, full data access) |
+| **Analyst** | `analyst@demo.com` | `demo123` | Ingest and manage feedback, use AI features |
+| **Viewer** | `viewer@demo.com` | `demo123` | Read-only access to dashboards and reports |
 
 *(Note: These credentials map to the seeded database provided by the backend).*
 
