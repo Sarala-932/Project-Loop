@@ -101,5 +101,5 @@ export const getAccessTokenService = async (refreshToken) => {
 
     const {accessToken} = generateToken(user._id, user.role, user.workspaceId);
 
-    return {accessToken};
+    return {accessToken, user};
 };

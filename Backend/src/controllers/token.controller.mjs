@@ -24,11 +24,11 @@ export const getAccessToken = async (req, res) => {
             return res.status(401).json({message: "No refresh token, please login again"});
         }
 
-        const {accessToken} = await getAccessTokenService(refreshToken);
+        const {accessToken, user} = await getAccessTokenService(refreshToken);
 
         res.cookie("accessToken", accessToken, accessCookieOpts);
         
-        res.status(200).json({message: "Token refreshed successfully"});
+        res.status(200).json({message: "Token refreshed successfully", user: {id: user._id, name: user.name, email: user.email, role: user.role, workspaceId: user.workspaceId}});
     } catch (error) {
         res.status(error.statusCode || 500).json({message: error.message});
     }
