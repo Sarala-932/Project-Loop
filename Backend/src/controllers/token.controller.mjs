@@ -4,15 +4,15 @@ const isProd = process.env.NODE_ENV === "production";
 
 export const accessCookieOpts = {
     httpOnly: true,
-    secure: isProd,
-    sameSite: isProd ? "strict" : "lax",
+    secure: true,
+    sameSite: "none",
     maxAge: 15 * 60 * 1000, // 15 minutes
 };
 
 export const refreshCookieOpts = {
     httpOnly: true,
-    secure: isProd,
-    sameSite: isProd ? "strict" : "lax",
+    secure: true,
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 
