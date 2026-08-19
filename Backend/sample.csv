@@ -1,0 +1,9 @@
+content,channel,customerLabel,sentiment
+"Onboarding took forever — I couldn't figure out how to invite my team.","WEB","john@example.com","NEG"
+"The new dashboard is gorgeous and finally fast. Huge improvement.","MOBILE","sarah@example.com","POS"
+"It does the job, but the mobile experience needs work.","APP_STORE","mike@example.com","NEU"
+"Prospect wants SSO before they'll sign — third time this month.","MANUAL","sales_team","NEG"
+"Love the new export feature, saved me an hour today.","WEB","emily@example.com","POS"
+"Billing page keeps timing out when I try to download an invoice.","WEB","finance@client.com","NEG"
+"App crashes every time I try to upload a profile picture.","MOBILE","angry_user123","NEG"
+"Customer support was very helpful in resolving my login issue.","MANUAL","happy_customer","POS"
