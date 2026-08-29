@@ -24,7 +24,7 @@ export const registerUserService = async (companyName, name, email, password) =>
     }
 
     const workspace = await Workspace.create({name: companyName});
-    
+
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -79,7 +79,6 @@ export const getAccessTokenService = async (refreshToken) => {
         throw createError("Refresh token not found, please login again", 401);
     }
 
-    // Verify the refresh token
     let decoded;
     try {
         decoded = jwt.verify(refreshToken, config.jwtRefreshSecret);
@@ -87,13 +86,11 @@ export const getAccessTokenService = async (refreshToken) => {
         throw createError("Invalid or expired refresh token, please login again", 401);
     }
 
-    // Check if refresh token exists in database (not revoked)
     const storedToken = await RefreshToken.findOne({token: refreshToken});
     if (!storedToken) {
         throw createError("Refresh token has been revoked, please login again", 401);
     }
 
-    // Get fresh user data for the new token
     const user = await User.findById(decoded.userId);
     if (!user) {
         throw createError("User not found", 401);
@@ -102,4 +99,14 @@ export const getAccessTokenService = async (refreshToken) => {
     const {accessToken} = generateToken(user._id, user.role, user.workspaceId);
 
     return {accessToken, user};
+};
+
+export const getCurrentUserService = async (userId) => {
+    const user = await User.findById(userId).select("-passwordHash");
+
+    if (!user) {
+        throw createError("User not found", 404);
+    }
+
+    return user;
 };

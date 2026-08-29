@@ -7,11 +7,10 @@ const themeSchema = new mongoose.Schema(
         description: {type: String},
         color: {type: String},
     },
-    {timestamps: true}
+    {timestamps: true},
 );
 
-// A workspace cannot have two themes with the exact same name
-themeSchema.index({ workspaceId: 1, name: 1 }, { unique: true });
+themeSchema.index({workspaceId: 1, name: 1}, {unique: true});
 const Theme = mongoose.model("Theme", themeSchema);
 
 export default Theme;

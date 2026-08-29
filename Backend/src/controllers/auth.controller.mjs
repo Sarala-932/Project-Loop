@@ -1,4 +1,9 @@
-import {registerUserService, loginUserService, logoutService} from "../services/auth.service.mjs";
+import {
+    registerUserService,
+    loginUserService,
+    logoutService,
+    getCurrentUserService,
+} from "../services/auth.service.mjs";
 
 import {accessCookieOpts, refreshCookieOpts} from "./token.controller.mjs";
 
@@ -17,7 +22,13 @@ export const registerUser = async (req, res) => {
 
         res.status(201).json({
             message: "Workspace and Admin account created successfully",
-            user: {id: user._id, name: user.name, email: user.email, role: user.role, workspaceId: user.workspaceId},
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                workspaceId: user.workspaceId,
+            },
         });
     } catch (error) {
         res.status(error.statusCode || 500).json({message: error.message});
@@ -36,7 +47,13 @@ export const loginUser = async (req, res) => {
 
         res.status(200).json({
             message: "Logged in successfully",
-            user: {id: user._id, name: user.name, email: user.email, role: user.role, workspaceId: user.workspaceId},
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                workspaceId: user.workspaceId,
+            },
         });
     } catch (error) {
         res.status(error.statusCode || 500).json({message: error.message});
@@ -52,6 +69,25 @@ export const logoutUser = async (req, res) => {
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken");
         res.status(200).json({message: "Logged out successfully"});
+    } catch (error) {
+        res.status(error.statusCode || 500).json({message: error.message});
+    }
+};
+
+export const getMe = async (req, res) => {
+    try {
+        const user = await getCurrentUserService(req.user.userId);
+
+        res.status(200).json({
+            message: "User fetched successfully",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                workspaceId: user.workspaceId,
+            },
+        });
     } catch (error) {
         res.status(error.statusCode || 500).json({message: error.message});
     }

@@ -20,10 +20,6 @@ export const protect = (req, res, next) => {
     }
 };
 
-/**
- * RBAC Middleware (Checks if user has required roles)
- * Usage: router.get("/route", protect, restrictTo("ADMIN", "ANALYST"),    handler)
- **/
 export const restrictTo = (...roles) => {
     return (req, res, next) => {
         if (!req.user || !roles.includes(req.user.role)) {

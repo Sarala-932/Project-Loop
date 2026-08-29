@@ -7,8 +7,8 @@ const reportSchema = new mongoose.Schema(
         title: {type: String, required: true},
         periodStart: {type: Date, required: true},
         periodEnd: {type: Date, required: true},
-        stats: {type: mongoose.Schema.Types.Mixed, required: true}, // Stores structured report data (total, positive, negative, topThemes)
-        narrative: {type: String, required: true}, // Stores the AI generated markdown report
+        stats: {type: mongoose.Schema.Types.Mixed, required: true},
+        narrative: {type: String, required: true},
     },
     {timestamps: true}
 );
