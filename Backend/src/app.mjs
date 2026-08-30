@@ -14,13 +14,13 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-// Allow dynamic CORS so dashboard cookies work, but external websites can use widget
+
 app.use(
     cors({
         origin: [
             "http://localhost:5173",
             "https://project-loop-one-iota.vercel.app",
-            // "http://localhost:3000",
+            "http://localhost:3000",
         ],
         credentials: true,
     }),
