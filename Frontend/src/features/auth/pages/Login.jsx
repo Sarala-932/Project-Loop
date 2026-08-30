@@ -1,14 +1,19 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {Sparkles, ArrowRight, Mail, Lock} from "lucide-react";
 import {useAuth} from "../hooks/useAuth";
 import {useNavigate, Link} from "react-router";
 import { toast } from "sonner";
 
 export const LoginPage = () => {
-    const [email, setEmail] = useState("admin@demo.com");
-    const [password, setPassword] = useState("12345678");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const {login} = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setEmail("");
+        setPassword("");
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
