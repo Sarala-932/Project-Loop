@@ -20,7 +20,7 @@ app.use(
         origin: [
             "http://localhost:5173",
             "https://project-loop-one-iota.vercel.app",
-            "http://localhost:3000",
+            // "http://localhost:3000",
         ],
         credentials: true,
     }),
