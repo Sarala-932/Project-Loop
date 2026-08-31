@@ -7,9 +7,10 @@ export const Integration = () => {
     const [copied, setCopied] = useState(false);
 
     // The script snippet the client will copy
-    // Note: URL points to localhost for dev. In production, it would be the real domain.
+    // Dynamically uses the current domain (localhost for dev, real domain for production)
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173';
     const scriptSnippet = `<script 
-  src="http://localhost:5173/widget.js" 
+  src="${baseUrl}/widget.js" 
   data-workspace-id="${user?.workspaceId}">
 </script>`;
 
