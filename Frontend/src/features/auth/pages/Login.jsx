@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {Sparkles, ArrowRight, Mail, Lock} from "lucide-react";
+import {Sparkles, ArrowRight, Mail, Lock, Loader2} from "lucide-react";
 import {useAuth} from "../hooks/useAuth";
 import {useNavigate, Link} from "react-router";
 import { toast } from "sonner";
@@ -7,6 +7,7 @@ import { toast } from "sonner";
 export const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const {login} = useAuth();
     const navigate = useNavigate();
 
@@ -17,12 +18,15 @@ export const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
             await login(email, password);
             toast.success("Login successful!");
             navigate("/dashboard");
         } catch (error) {
             toast.error(error.response?.data?.message || "Login failed. Please check your credentials.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -162,9 +166,21 @@ export const LoginPage = () => {
 
                             <button
                                 type="submit"
-                                className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-emerald-600/25 mt-6"
+                                disabled={isLoading}
+                                className={`w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-emerald-600/25 mt-6 ${
+                                    isLoading ? "opacity-70 cursor-not-allowed" : ""
+                                }`}
                             >
-                                Sign In <ArrowRight size={16} />
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="animate-spin" size={18} />
+                                        Signing In...
+                                    </>
+                                ) : (
+                                    <>
+                                        Sign In <ArrowRight size={16} />
+                                    </>
+                                )}
                             </button>
                         </form>
 
