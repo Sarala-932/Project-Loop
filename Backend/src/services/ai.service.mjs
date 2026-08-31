@@ -1,10 +1,8 @@
 import Groq from "groq-sdk";
-import { z } from "zod";
+import {z} from "zod";
 
-// Initialize Groq client (requires GROQ_API_KEY in .env)
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groq = new Groq({apiKey: process.env.GROQ_API_KEY});
 
-// Define the expected strict JSON structure using Zod
 export const ClassificationSchema = z.object({
     sentiment: z.enum(["POS", "NEG", "NEU"]),
     sentimentScore: z.number().min(-1).max(1),
@@ -14,10 +12,15 @@ export const ClassificationSchema = z.object({
 });
 
 export const classifyFeedbackText = async (text) => {
-    // Graceful fallback if API key is missing during local development
     if (!process.env.GROQ_API_KEY) {
         console.warn("GROQ_API_KEY is not set. Skipping AI classification and using NEUTRAL fallback.");
-        return { sentiment: "NEU", sentimentScore: 0, themes: [], featureArea: "General", rationale: "API key missing" };
+        return {
+            sentiment: "NEU",
+            sentimentScore: 0,
+            themes: [],
+            featureArea: "General",
+            rationale: "API key missing",
+        };
     }
 
     const systemPrompt = `You are an AI assistant for a Customer Feedback Intelligence Platform.
@@ -36,31 +39,30 @@ The JSON MUST perfectly match this structure:
     try {
         const chatCompletion = await groq.chat.completions.create({
             messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: text }
+                {role: "system", content: systemPrompt},
+                {role: "user", content: text},
             ],
-            model: "openai/gpt-oss-20b", // Updated to the recommended replacement model
-            temperature: 0, // 0 means deterministic (no creativity, just facts)
-            response_format: { type: "json_object" }, // Forces valid JSON output
+            model: "openai/gpt-oss-20b",
+            temperature: 0,
+            response_format: {type: "json_object"},
         });
 
         const content = chatCompletion.choices[0]?.message?.content;
         if (!content) throw new Error("No content received from AI");
 
-        // Parse and validate with Zod
         const rawJson = JSON.parse(content);
         const validatedData = ClassificationSchema.parse(rawJson);
 
         return validatedData;
     } catch (error) {
         console.error("AI Classification Failed:", error.message || error);
-        // Fallback gracefully so the ingestion doesn't break if the AI fails
-        return { 
-            sentiment: "NEU", 
-            sentimentScore: 0, 
-            themes: ["Unclassified"], 
-            featureArea: "General", 
-            rationale: "AI processing failed" 
+
+        return {
+            sentiment: "NEU",
+            sentimentScore: 0,
+            themes: ["Unclassified"],
+            featureArea: "General",
+            rationale: "AI processing failed",
         };
     }
 };
@@ -89,11 +91,11 @@ QUESTION: ${question}`;
     try {
         const chatCompletion = await groq.chat.completions.create({
             messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: userMessage }
+                {role: "system", content: systemPrompt},
+                {role: "user", content: userMessage},
             ],
             model: "openai/gpt-oss-20b",
-            temperature: 0.2, // Slightly creative to formulate a good sentence, but still factual
+            temperature: 0.2,
         });
 
         return chatCompletion.choices[0]?.message?.content || "No response generated.";
@@ -125,11 +127,11 @@ Please generate the Voice of Customer narrative report.`;
     try {
         const chatCompletion = await groq.chat.completions.create({
             messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: userMessage }
+                {role: "system", content: systemPrompt},
+                {role: "user", content: userMessage},
             ],
             model: "openai/gpt-oss-20b",
-            temperature: 0.3, // Slightly creative to write a good report
+            temperature: 0.3,
         });
 
         return chatCompletion.choices[0]?.message?.content || "No narrative generated.";
