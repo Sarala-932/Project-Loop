@@ -41,8 +41,8 @@ export const FeedbacksPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [newFeedback, setNewFeedback] = useState({
     customerName: "",
-    content: "",
-    source: "Web App"
+    text: "",
+    channel: "Web App"
   });
 
   const [activeFilters, setActiveFilters] = useState({ sentiment: 'ALL', status: 'ALL' });
@@ -148,7 +148,7 @@ export const FeedbacksPage = () => {
 
   const handleAddFeedback = async (e) => {
     e.preventDefault();
-    if (!newFeedback.content.trim()) {
+    if (!newFeedback.text.trim()) {
       toast.error("Feedback content is required.");
       return;
     }
@@ -158,7 +158,7 @@ export const FeedbacksPage = () => {
       await feedbackService.createFeedback(newFeedback);
       toast.success("Feedback added successfully!");
       handleCloseModal();
-      setNewFeedback({ customerName: "", content: "", source: "Web App" });
+      setNewFeedback({ customerName: "", text: "", channel: "Web App" });
       refreshFeedbacks(); // Refresh the list from backend
     } catch (err) {
       console.error(err);
@@ -581,8 +581,8 @@ export const FeedbacksPage = () => {
               <div>
                 <label className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Source</label>
                 <select 
-                  value={newFeedback.source}
-                  onChange={(e) => setNewFeedback({...newFeedback, source: e.target.value})}
+                  value={newFeedback.channel}
+                  onChange={(e) => setNewFeedback({...newFeedback, channel: e.target.value})}
                   className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/60 dark:border-zinc-700 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none text-zinc-900 dark:text-white transition-all cursor-pointer"
                 >
                   <option value="Web App">Web App</option>
@@ -597,8 +597,8 @@ export const FeedbacksPage = () => {
                 <label className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Feedback Content <span className="text-rose-500">*</span></label>
                 <textarea 
                   required
-                  value={newFeedback.content}
-                  onChange={(e) => setNewFeedback({...newFeedback, content: e.target.value})}
+                  value={newFeedback.text}
+                  onChange={(e) => setNewFeedback({...newFeedback, text: e.target.value})}
                   rows={4}
                   className="w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/60 dark:border-zinc-700 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none text-zinc-900 dark:text-white transition-all resize-none"
                   placeholder="What did the customer say?"
@@ -615,7 +615,7 @@ export const FeedbacksPage = () => {
                 </button>
                 <button 
                   type="submit"
-                  disabled={isSubmitting || !newFeedback.content.trim()}
+                  disabled={isSubmitting || !newFeedback.text.trim()}
                   className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:hover:bg-emerald-600 rounded-xl transition-colors shadow-[0_2px_20px_rgb(0,0,0,0.04)] dark:shadow-none shadow-emerald-500/20"
                 >
                   {isSubmitting ? <><Loader2 size={16} className="animate-spin" /> Saving...</> : "Add Feedback"}
