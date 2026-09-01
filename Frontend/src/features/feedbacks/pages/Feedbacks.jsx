@@ -214,16 +214,25 @@ export const FeedbacksPage = () => {
     setOpenDropdownId(null);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this feedback?")) return;
+  const [deleteModalState, setDeleteModalState] = useState({ isOpen: false, feedbackId: null, isDeleting: false });
+
+  const openDeleteModal = (id) => {
+    setDeleteModalState({ isOpen: true, feedbackId: id, isDeleting: false });
+    setOpenDropdownId(null);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteModalState.feedbackId) return;
+    setDeleteModalState(prev => ({ ...prev, isDeleting: true }));
     try {
-      await feedbackService.deleteFeedback(id);
+      await feedbackService.deleteFeedback(deleteModalState.feedbackId);
       toast.success("Feedback deleted!");
       refreshFeedbacks();
+      setDeleteModalState({ isOpen: false, feedbackId: null, isDeleting: false });
     } catch (err) {
       toast.error("Failed to delete.");
+      setDeleteModalState(prev => ({ ...prev, isDeleting: false }));
     }
-    setOpenDropdownId(null);
   };
 
   return (
@@ -496,7 +505,7 @@ export const FeedbacksPage = () => {
                                   <LinkIcon size={14} className="text-emerald-500" /> Copy ID / Link
                                 </button>
                                 <div className="h-px bg-zinc-100 dark:bg-zinc-800 my-1"></div>
-                                <button onClick={() => handleDelete(fb.id || fb._id)} className="w-full text-left px-4 py-2 text-sm font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 flex items-center gap-2">
+                                <button onClick={() => openDeleteModal(fb.id || fb._id)} className="w-full text-left px-4 py-2 text-sm font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 flex items-center gap-2">
                                   <Trash2 size={14} /> Delete Feedback
                                 </button>
                               </div>
@@ -626,6 +635,44 @@ export const FeedbacksPage = () => {
         </div>,
         document.body
       )}
+      {/* Delete Confirmation Modal (Shadcn style) */}
+      {deleteModalState.isOpen && createPortal(
+        <div 
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setDeleteModalState({ isOpen: false, feedbackId: null, isDeleting: false })}
+        >
+          <div 
+            className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg shadow-lg w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200 p-6" 
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="space-y-2">
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">Are you absolutely sure?</h2>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                This action cannot be undone. This will permanently delete this feedback and remove its data from our servers.
+              </p>
+            </div>
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 mt-6">
+              <button 
+                onClick={() => setDeleteModalState({ isOpen: false, feedbackId: null, isDeleting: false })}
+                className="px-4 py-2 text-sm font-medium text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md transition-colors"
+                disabled={deleteModalState.isDeleting}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmDelete}
+                className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors"
+                disabled={deleteModalState.isDeleting}
+              >
+                {deleteModalState.isDeleting ? <Loader2 size={16} className="animate-spin" /> : null}
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
     </div>
   );
 };
