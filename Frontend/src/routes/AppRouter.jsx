@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
   // 1. PUBLIC LANDING PAGE
   {
     path: "/",
-    element: <HomePage />,
+    element: <PublicRoute><HomePage /></PublicRoute>,
   },
   
   // 2. PUBLIC LOGIN ROUTE
